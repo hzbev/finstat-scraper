@@ -27,8 +27,15 @@ async function parse(page) {
 }
 
 async function start() {
-    for (let i = 0; i < 27946; i++) {
-        await parse(i)
+    let promises = [];
+    for (let i = 17259; i < 27946; i += 10) {
+        const pagePromises = [];
+        for (let j = i; j < i + 10; j++) {
+            pagePromises.push(parse(j));
+        }
+        const result = await Promise.all(pagePromises);
+        promises.push(...result);
     }
+    await Promise.all(promises);
 }
 start()
